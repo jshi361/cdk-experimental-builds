@@ -118,13 +118,30 @@ class AutoSizeVirtualScrollStrategy {
         }
     }
     /** Scroll to the offset for the given index. */
-    scrollToIndex() {
-        if (typeof ngDevMode === 'undefined' || ngDevMode) {
-            // TODO(mmalerba): Implement.
-            throw Error('cdk-virtual-scroll: scrollToIndex is currently not supported for the autosize' +
-                ' scroll strategy');
-        }
+    scrollToIndex(index: number, behavior: ScrollBehavior): void {
+    if (this._viewport) {
+      const viewport = this._viewport;
+      const renderedRange = viewport.getRenderedRange();
+
+      if (renderedRange.start <= index && renderedRange.end >= index) {
+        // index is within the rendered range, so we scroll by the exact amount of pixels
+        this._scrollToIndexTarget = {
+          index,
+          offset:
+            viewport.measureRangeSize({start: renderedRange.start, end: index}) +
+            this._lastRenderedContentOffset,
+        };
+      } else {
+        // index is out of rendered range, so the target offset is estimated.
+        this._scrollToIndexTarget = {
+          index,
+          offset: this._averager.getAverageItemSize() * index,
+        };
+      }
+
+      viewport.scrollToOffset(this._scrollToIndexTarget.offset, behavior);
     }
+   }
     /**
      * Update the buffer parameters.
      * @param minBufferPx The minimum amount of buffer rendered beyond the viewport (in pixels).
