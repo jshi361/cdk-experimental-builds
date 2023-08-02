@@ -118,7 +118,7 @@ class AutoSizeVirtualScrollStrategy {
         }
     }
     /** Scroll to the offset for the given index. */
-    scrollToIndex(index, behavior): void {
+    scrollToIndex(index, behavior) {
     if (this._viewport) {
       const viewport = this._viewport;
       const renderedRange = viewport.getRenderedRange();
