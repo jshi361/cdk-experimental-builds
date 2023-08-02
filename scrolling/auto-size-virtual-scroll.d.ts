@@ -84,7 +84,7 @@ export declare class AutoSizeVirtualScrollStrategy implements VirtualScrollStrat
     /** @docs-private Implemented as part of VirtualScrollStrategy. */
     onRenderedOffsetChanged(): void;
     /** Scroll to the offset for the given index. */
-    scrollToIndex(): void;
+    scrollToIndex(index: number, behavior: ScrollBehavior): void;
     /**
      * Update the buffer parameters.
      * @param minBufferPx The minimum amount of buffer rendered beyond the viewport (in pixels).
